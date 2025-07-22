@@ -214,25 +214,26 @@ int ft_builtin_2(t_parser *cmd)
 }
 int ft_builtin(t_parser *cmd)
 {
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-	return 0;
-	if (ft_strcmp(cmd->argv[0], "exit") == 0)
-	{
-		builtin_exit(cmd);
-		return(1);
-	}
-    if (ft_strcmp(cmd->argv[0], "cd") == 0) 
-	{
-		built_cd(cmd);
+    if (!cmd || !cmd->argv || !cmd->argv[0])
+        return 0;
+        
+    if (ft_strcmp(cmd->argv[0], "exit") == 0)
+    {
+        builtin_exit(cmd);
         return 1;
     }
-	if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-	{
-		builtin_pwd();
-		return (1);
-	}
-	if (ft_builtin_2(cmd))
-		return (1);
+    if (ft_strcmp(cmd->argv[0], "cd") == 0) 
+    {
+        g_last_exit_status = built_cd(cmd); 
+        return 1;
+    }
+    if (ft_strcmp(cmd->argv[0], "pwd") == 0)
+    {
+        g_last_exit_status = builtin_pwd(); 
+        return 1;
+    }
+    if (ft_builtin_2(cmd))
+        return 1;
     return 0;
 }
 
@@ -370,21 +371,26 @@ void execute_loop(t_parser *cmd_list, t_exec_data *data)
 
 void wait_pids(t_exec_data *data)
 {
-	int j;
-
-	j = 0;
+    int j = 0;
+    int last_status = 0;
+    
     while (j < data->i) 
-	{
+    {
         int status;
         waitpid(data->pids[j], &status, 0);
-		//  if (WIFEXITED(status)) {
-        //     int exit_code = WEXITSTATUS(status);
-        //     printf("Child normal şekilde çıktı. Exit kodu: %d\n", exit_code);
-        // } else {
-        //     printf("Child normal çıkmadı.\n");
-        // }
-		j++;
+        
+        if (WIFEXITED(status)) 
+        {
+            last_status = WEXITSTATUS(status);
+        } 
+        else if (WIFSIGNALED(status)) 
+        {
+            last_status = 128 + WTERMSIG(status);
+        }
+        j++;
     }
+    
+    g_last_exit_status = last_status;
 }
 
 void execute_cmds(t_parser *cmd_list, char **env)

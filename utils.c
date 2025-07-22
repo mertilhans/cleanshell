@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 04:24:43 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/19 15:10:26 by husarpka         ###   ########.fr       */
+/*   Updated: 2025/07/22 07:27:26 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ int ft_strlen(char *s)
     return(i);
 }
 
-int ft_strcmp(char *s1, char *s2)
-{
-	int i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] == s2[i])
-			i++;
-		else 
-			return (s1[i] - s2[i]);
-	}
-	return (s1[i] - s2[i]);
-}
 //void *gc_malloc(size_t size)
 //{
 //    void *ptr;

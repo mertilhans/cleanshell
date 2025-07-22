@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 04:24:43 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/22 04:40:49 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/22 07:28:35 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int is_quote(char c)
 {
     return (c == '\'' || c == '"');
 }
-int ft_strlen(char *s)
+size_t ft_strlen(char *s)
 {
     int i = 0;
     while(s[i] && s[i++])
@@ -44,14 +44,5 @@ char *ft_strdup(char *str)
         *res++ = *str++;
     *res = '\0';
  return (result);   
-}
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 //

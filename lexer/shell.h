@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:36:35 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/22 04:41:03 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/22 07:28:49 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void	lexer_advance(t_tokenizer *tokenizer);
 void	tokenizer_free(t_tokenizer *tokenizer);
 void ft_memcpy(char *s1,char *s2, int len);
 int is_quote(char c);
-int ft_strlen(char *s);
 char *ft_strdup(char *str);
-int	ft_strcmp(const char *s1, const char *s2);
 
     #endif

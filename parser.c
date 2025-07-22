@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 09:01:38 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/22 05:19:08 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/22 06:34:30 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ t_token *ft_control_token(t_token *tokens, t_parser **cmd_list, t_parser **last_
     return tokens;
 }
 
-t_parser *parse_tokens(t_token *tokens,char **env)
+t_parser *parse_tokens(t_token *tokens)
 {
     t_parser *cmd_list;
     t_parser *last_cmd;
@@ -202,11 +202,55 @@ t_parser *parse_tokens(t_token *tokens,char **env)
 
         tokens = ft_control_token(tokens, &cmd_list, &last_cmd);
     }
-    expand_parser_list(cmd_list,env);
+    //expand_parser_list(cmd_list,env);
     return cmd_list;
 }
 
-
+void expand_parser_list(t_parser *cmd_list, char **env)
+{
+    t_parser *current = cmd_list;
+    int i;
+    
+    while (current)
+    {
+        // Her komutun argv'lerini expand et
+        if (current->argv)
+        {
+            i = 0;
+            while (current->argv[i])
+            {
+                if (ft_strchr(current->argv[i], '$'))
+                {
+                    char *expanded = expand_variables(current->argv[i], env);
+                    if (expanded)
+                    {
+                        free(current->argv[i]);
+                        current->argv[i] = expanded;
+                    }
+                }
+                i++;
+            }
+        }
+        
+        // Redirection filename'leri expand et
+        t_redirection *redir = current->redirs;
+        while (redir)
+        {
+            if (ft_strchr(redir->filename, '$'))
+            {
+                char *expanded = expand_variables(redir->filename, env);
+                if (expanded)
+                {
+                    free(redir->filename);
+                    redir->filename = expanded;
+                }
+            }
+            redir = redir->next;
+        }
+        
+        current = current->next;
+    }
+}
 
 
 

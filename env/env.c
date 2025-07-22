@@ -6,22 +6,28 @@
 /*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 05:37:42 by merilhan          #+#    #+#             */
-/*   Updated: 2025/07/17 05:59:55 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/22 07:38:38 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "../shell.h"
 
-t_env   *find_env(t_env *env_list, char *key)
+t_env *find_env(t_env *env_list, const char *key) 
 {
-        t_env *current = env_list;
-        while(current)
-        {
-                if(strcmp(current->key,key) == 0)
-                        return (current);
-                current = current->next;
-        }
-        return(NULL);
+    t_env *current;
+    
+    if (!env_list || !key)
+        return NULL;
+    
+    current = env_list;
+    while (current)
+    {
+        if (ft_strcmp(current->key, key) == 0)
+            return current;  // t_env* döndürülüyor
+        current = current->next;
+    }
+    return NULL;
 }
 int     builtin_export(char **av,t_env *env_list)
 {
@@ -100,29 +106,8 @@ t_env   *init_env(char **env)
 }
 char    *get_env_value(t_env *env_list,char *key)
 {
-        t_env *env_variable = find_env(env_list,key);
-        if(env_variable)
-                return env_list->value;
-        return(getenv(key));
-}
-int main(int ac,char **av,char *env[])
-{
-        (void)ac;
-        (void)av;
-        t_env *my_env = init_env(env);
-        printf("==== DENEME ENV KOMUTLARI ==== ");
-        char *env_av[] = {"env" , NULL};
-        builtin_env(env_av, my_env);
-        
-        printf("\n == TEST EXPORT KOMUT ===");
-        char *export_av[] = {"export",NULL};
-        builtin_export(export_av, my_env);
-        
-        printf("\n TEST UNSET KOMUTLARI =====");
-        char *unset_av[] = {"unset","PATH",NULL};
-        builtin_unset(unset_av,&my_env);
-        
-        printf("\n ==== TEST UNSETTEN SONRA ENV TESTİ");
-        builtin_env(env_av,my_env);
-        
+    t_env *env_variable = find_env(env_list, key);
+    if (env_variable)
+        return env_variable->value;
+    return NULL;
 }
