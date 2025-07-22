@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:36:25 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/07 05:58:49 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:26:43 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ t_token *create_token(t_token_type type, char *value)
 {
     t_token *token;
 
-    token = gb_malloc(sizeof(t_token)); // malloc yerine gb_malloc
+    token = gb_malloc(sizeof(t_token)); 
     if (!token)
         return (NULL);
     
     token->type = type;
     if (value)
-        token->value = ft_strdup(value); // ft_strdup zaten gb_malloc kullanıyor
+        token->value = ft_strdup(value); 
     else
         token->value = NULL;
     token->next = NULL;
@@ -67,16 +67,17 @@ void print_tokens(t_token *tokens)
     t_token *current = tokens;
     const char *type_names[] = {
         "WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "REDIR_APPEND",
-        "HEREDOC", "AND", "OR", "SEMICOLON", "LPAREN", "RPAREN",
-        "EOF", "ERROR"
+        "HEREDOC", "SEMICOLON",
+        "EOF", "ERROR" ,
     };
 
     printf("=== TOKENS ===\n");
     while (current)
     {
-        printf("Type: %-12s Value: '%s'\n", 
-               type_names[current->type], 
-               current->value ? current->value : "NULL");
+        if(type_names[current->type])
+            printf("Type %-8s Value  %s\n",type_names[current->type],current->value);
+        else
+            printf("%sNULL",current->value);
         current = current->next;
     }
     printf("==============\n");
@@ -96,8 +97,7 @@ int main()
 		if(tokens)
 		{
 			print_tokens(tokens);
-            cmds = parse_tokens(tokens); // Komut listesini al
-            // Komutları kullan: örnek olarak ekrana yazdır
+            cmds = parse_tokens(tokens);
             t_simple_cmd *tmp = cmds;
             while (tmp)
             {

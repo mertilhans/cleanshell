@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:36:06 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/07 06:22:17 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:45:01 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,27 @@ static void handle_quote(t_tokenizer *tokenizer, char *in_quote, char quote_char
 
 static char *process_character(t_tokenizer *tokenizer, char *word, int *len, int *capacity, char *in_quote)
 {
-    handle_quote(tokenizer, in_quote, '\'', '"');
-    if (tokenizer->current == '\'')
-        return (word);
-    
-    handle_quote(tokenizer, in_quote, '"', '\'');
-    if (tokenizer->current == '"')
-        return (word);
-    
+
+    if (*in_quote == '\0')
+    {
+        handle_quote(tokenizer, in_quote, '\'', '"');
+        if (*in_quote != '\0') 
+            return word;
+        handle_quote(tokenizer, in_quote, '"', '\'');
+        if (*in_quote != '\0') 
+            return word;
+    }
+    else 
+    {
+        handle_quote(tokenizer, in_quote, *in_quote, '\0');
+        if (*in_quote == '\0') 
+            return word;
+    }
     word = append_char(word, tokenizer->current, len, capacity);
     if (!word)
-        return (NULL);
+        return NULL;
     lexer_advance(tokenizer);
-    return (word);
+    return word;
 }
 
 char *extract_complex_word(t_tokenizer *tokenizer)
@@ -86,5 +94,7 @@ char *extract_complex_word(t_tokenizer *tokenizer)
         if (!word)
             return (NULL);
     }
+    if (in_quote != '\0')
+        return NULL;
     return (word);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 04:24:43 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/22 07:28:35 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/07 05:34:34 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int is_quote(char c)
 {
     return (c == '\'' || c == '"');
 }
-size_t ft_strlen(char *s)
+int ft_strlen(char *s)
 {
     int i = 0;
     while(s[i] && s[i++])

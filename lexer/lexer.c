@@ -6,7 +6,7 @@
 /*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:35:51 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/07 05:59:46 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:10:33 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_token *tokenizer_get_next_token_2(t_tokenizer *tokenizer)
         {
             lexer_advance(tokenizer);
             lexer_advance(tokenizer);
-            return create_token(TOKEN_OR, "||");
         }
         lexer_advance(tokenizer);
         return create_token(TOKEN_PIPE, "|");
@@ -56,7 +55,7 @@ t_token *tokenizer_get_next_token(t_tokenizer *tokenizer)
             return create_token(TOKEN_REDIR_APPEND, ">>");
         }
         lexer_advance(tokenizer);
-        return create_token(TOKEN_REDIR_OUT, ">" );
+        return create_token(TOKEN_REDIR_OUT, ">");
     }
     t_token *token = tokenizer_get_next_token_2(tokenizer);
     if (token)

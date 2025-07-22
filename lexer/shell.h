@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:36:35 by husarpka          #+#    #+#             */
-/*   Updated: 2025/07/22 07:28:49 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:16:34 by merilhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,42 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef enum quote_type
+{
+    QUOTE_NONE,
+    QUOTE_SINGLE,
+    QUOTE_DOUBLE
+}   t_quote_type;
 
 typedef enum e_token_type
 {
-    TOKEN_WORD,          // Normal kelimeler
+    TOKEN_WORD,          // 
     TOKEN_PIPE,          // |
     TOKEN_REDIR_IN,      // <<
     TOKEN_REDIR_OUT,     // >
     TOKEN_REDIR_APPEND,  // >>
     TOKEN_HEREDOC,       // <<
-    TOKEN_AND,           // &&
-    TOKEN_OR,            // ||
     TOKEN_SEMICOLON,     // ;
-    TOKEN_LPAREN,        // (
-        TOKEN_RPAREN,        // )
         TOKEN_EOF,           // Dosya sonu
         TOKEN_ERROR          // Hata
     } t_token_type;
     
-    // Token yapısı
+    
     typedef struct s_token
     {
         t_token_type    type;
         char            *value;
+        t_quote_type    quote_type; // buraya dönücez elimizde tutucaz tamam mı unutma so important 
         struct s_token  *next;
     } t_token;
     
-    // Tokenizer yapısı
+
     typedef struct s_tokenizer
     {
-        char    *input;      // Giriş metni
-        int     pos;         // Mevcut pozisyon
-        int     len;         // Toplam uzunluk
-        char    current;     // Mevcut karakter
+        char    *input;   
+        int     pos;     
+        int     len;        
+        char    current;     
     } t_tokenizer;
     
     // Fonksiyon prototipleri
@@ -74,7 +77,7 @@ typedef enum e_token_type
     t_token *tokenizer_get_next_token_2(t_tokenizer *tokenizer);
   
     t_tokenizer *tokenizer_init(char *input);
-    t_token *create_token(t_token_type type, char *value);
+   t_token *create_token(t_token_type type, char *value);
   
 
     void	ft_skip_space(t_tokenizer *tokenizer);
@@ -84,6 +87,7 @@ void	lexer_advance(t_tokenizer *tokenizer);
 void	tokenizer_free(t_tokenizer *tokenizer);
 void ft_memcpy(char *s1,char *s2, int len);
 int is_quote(char c);
+int ft_strlen(char *s);
 char *ft_strdup(char *str);
 
     #endif
